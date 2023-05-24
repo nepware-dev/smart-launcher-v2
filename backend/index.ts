@@ -8,6 +8,7 @@ import { AddressInfo } from "net"
 import config          from "./config"
 import fhirServer      from "./routes/fhir"
 import authServer      from "./routes/auth"
+import oidcServer      from "./oidc"
 import launcher        from "./routes/launcher"
 import pkg             from "../package.json"
 import { globalErrorHandler, ipBlackList } from "./middlewares"
@@ -40,6 +41,7 @@ app.get("/smart-style.json", (_, res) => {
 })
 
 // Auth server
+app.use(["/v/:fhir_release/sim/:sim/oidc", "/v/:fhir_release/oidc"], oidcServer.callback())
 app.use(["/v/:fhir_release/sim/:sim/auth", "/v/:fhir_release/auth"], authServer)
 
 // FHIR servers
@@ -73,7 +75,7 @@ app.use("/env.js", (_, res) => {
         FHIR_SERVER_R2     : config.fhirServerR2,
         FHIR_SERVER_R3     : config.fhirServerR3,
         FHIR_SERVER_R4     : config.fhirServerR4,
-        ACCESS_TOKEN       : jwt.sign({ client_id: "launcherUI" }, config.jwtSecret, { expiresIn: "10 years" }),
+        ACCESS_TOKEN       : jwt.sign({ client_id: "launcherUI", scopes: ['Practitioner/*.rs', 'Patient/*.rs'] }, config.jwtSecret, { expiresIn: "10 years" }),
         VERSION            : pkg.version,
         COMMIT             : process.env.SOURCE_VERSION
     };

@@ -28,7 +28,7 @@ const initialState: PatientPickerState = {
     skip          : 0,
     searchText    : "",
     patient       : "",
-    baseUrl       : "http://r4.smarthealthit.org/Patient"
+    baseUrl       : "https://shp.dev.nepware.io/v/r4/fhir/Patient"
 }
 
 function reducer(state: PatientPickerState, action: PatientPickerAction): PatientPickerState {

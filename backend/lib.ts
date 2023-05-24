@@ -1,4 +1,4 @@
-import jwt from "jsonwebtoken"
+import jwt, {JwtHeader} from "jsonwebtoken"
 import { NextFunction, Request, Response, RequestHandler } from "express"
 import config from "./config";
 import { HttpError, InvalidRequestError } from "./errors";
@@ -87,6 +87,42 @@ export function validateToken(req: Request, required = false) {
 
     if (token.sim_error) {
         throw new HttpError(token.sim_error).status(401)
+    }
+}
+
+export function validateScope(req: Request, required = false) {
+    const permissionMatrix = {
+        'GET': 'r',
+        'POST': 'c',
+        'DELETE': 'd',
+        'PUT': 'u',
+    };
+    var {
+        payload: token
+    } = jwt.decode(req.headers.authorization.split(" ")?.[1], { complete: true, json: true }) as {
+        header: JwtHeader
+        payload: Record<string, any>
+    }
+
+    const requestPath = req.path;
+    const method = req.method as String;
+    const resourceType = requestPath.split('/')[1];
+    const scope = token.scopes?.find((s: string) => s.match(`${resourceType}\/.*`));
+    
+    console.log(scope, token.scopes, `${resourceType}\/.*`);
+    if(!scope) {
+        throw new HttpError("Not enough permission to access the resource").status(403)
+    }
+
+    let permission = permissionMatrix[method];
+    if(requestPath.endsWith('_search')) {
+        permission = 's';
+    }
+
+    const scopePermissions = scope.split('.').pop() as String;
+    console.log(scopePermissions, permission);
+    if(scopePermissions !== '*' && !scopePermissions.includes(permission)) {
+        throw new HttpError("Not enough permission").status(403)
     }
 }
 

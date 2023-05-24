@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
 import { fetch, Headers }    from "cross-fetch"
-import { getRequestBaseURL, getFhirServerBaseUrl, validateToken } from "../../lib"
+import { getRequestBaseURL, getFhirServerBaseUrl, validateToken, validateScope } from "../../lib"
 
 
 export default async function proxy(req: Request, res: Response) {
@@ -11,7 +11,8 @@ export default async function proxy(req: Request, res: Response) {
     const fhirServer       = getFhirServerBaseUrl(req);
 
     // Anything other than /metadata requires authentication
-    validateToken(req, false);
+    validateToken(req, true);
+    validateScope(req, true);
 
     // Build the FHIR request options --------------------------------------
     let fhirRequestOptions: RequestInit = {
