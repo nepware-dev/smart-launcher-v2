@@ -107,9 +107,9 @@ export function validateScope(req: Request, required = false) {
     const requestPath = req.path;
     const method = req.method as String;
     const resourceType = requestPath.split('/')[1];
-    const scope = token.scopes?.find((s: string) => s.match(`${resourceType}\/.*`));
+    const scope = token.scope?.split(' ')?.find((s: string) => s.match(new RegExp(resourceType+'\/.*', 'i')));
     
-    console.log(scope, token.scopes, `${resourceType}\/.*`);
+    console.log(requestPath, token, scope, token.scope, /${resourceType}\/.*/i);
     if(!scope) {
         throw new HttpError("Not enough permission to access the resource").status(403)
     }

@@ -132,7 +132,7 @@ export default function SampleApp()
                         <LaunchPanel
                             isOpen
                             aud={ aud! }
-                            client_id="whatever"
+                            client_id="smartonfhir"
                             scope="patient/*.* user/*.* launch/patient launch/encounter openid fhirUser profile offline_access"
                         />
                     </div>

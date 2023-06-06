@@ -9,6 +9,8 @@ export default function Login() {
 
     const [searchParams] = useSearchParams();
     const [id, setId]    = useState("")
+    const [password, setPassword]    = useState("")
+    const [error, setError]    = useState<Error | undefined>()
 
     const loginType = String(searchParams.get("login_type") || "")
     const aud       = String(searchParams.get("aud") || "")
@@ -30,8 +32,24 @@ export default function Login() {
 
     const fetchUrl = url.href
 
-    function submit(e: FormEvent) {
+    async function submit(e: FormEvent) {
         e.preventDefault()
+        try {
+            const url = new URL(searchParams.get("aud")!.replace(/\/fhir/, "/auth/login"))
+            const body = new URLSearchParams();
+            body.set('username', id);
+            body.set('password', password);
+            const response = await fetch(url, {method: "POST", body});
+            const result = await response.json()
+            if(response.ok) {
+                //add this to searchparams
+            } else {
+            return setError(result as Error);
+            }
+        } catch(error: unknown) {
+            return setError(error as Error);
+        }
+
         const url = new URL(searchParams.get("aud")!.replace(/\/fhir/, "/auth/authorize"))
         url.search = window.location.search
         url.searchParams.set("login_success", "1")
@@ -118,14 +136,12 @@ export default function Login() {
                         }
                         <div className="form-group">
                             <label htmlFor="password">Password</label>
-                            <input type="password" defaultValue="demo-password" className="form-control" disabled />
-                            <div className="help-text text-muted">
-                                This login is for demonstration purposes only. ANY password will be accepted.
-                            </div>
+                            <input type="password" className="form-control" onChange={e => setPassword(e.target.value)} />
                         </div>
 
                         <hr/>
                         <div className="form-group">
+                            {error && <label>{error.message}</label>}
                             <div className="col-xs-12 text-center">
                                 <button
                                     type="button"

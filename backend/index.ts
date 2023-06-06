@@ -75,7 +75,7 @@ app.use("/env.js", (_, res) => {
         FHIR_SERVER_R2     : config.fhirServerR2,
         FHIR_SERVER_R3     : config.fhirServerR3,
         FHIR_SERVER_R4     : config.fhirServerR4,
-        ACCESS_TOKEN       : jwt.sign({ client_id: "launcherUI", scopes: ['Practitioner/*.rs', 'Patient/*.rs'] }, config.jwtSecret, { expiresIn: "10 years" }),
+        ACCESS_TOKEN       : jwt.sign({ client_id: "launcherUI", scope: 'Practitioner/*.rs Patient/*.rs Encounter/*.rs' }, config.jwtSecret, { expiresIn: "10 years" }),
         VERSION            : pkg.version,
         COMMIT             : process.env.SOURCE_VERSION
     };

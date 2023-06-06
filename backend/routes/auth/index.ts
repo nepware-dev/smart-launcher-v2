@@ -3,6 +3,7 @@ import introspect         from "./introspect"
 import revoke             from "./revoke"
 import manage             from "./manage"
 import register           from "./register"
+import login           from "./login"
 import TokenHandler       from "./token"
 import AuthorizeHandler   from "./authorize"
 import { asyncRouteWrap } from "../../lib"
@@ -19,6 +20,7 @@ authServer.post("/introspect", urlencoded, asyncRouteWrap(introspect))
 authServer.post("/revoke"    , urlencoded, asyncRouteWrap(revoke))
 authServer.post("/manage"    , urlencoded, asyncRouteWrap(manage))
 authServer.post("/register"  , urlencoded, asyncRouteWrap(register))
+authServer.post("/login"     , urlencoded, asyncRouteWrap(login))
 
 
 export default authServer
