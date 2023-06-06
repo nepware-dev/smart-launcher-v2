@@ -107,9 +107,19 @@ export function validateScope(req: Request, required = false) {
     const requestPath = req.path;
     const method = req.method as String;
     const resourceType = requestPath.split('/')[1];
+
+    // check launch/encounter
+    if(token.scope?.includes('launch/patient') && resourceType.toLowerCase() === 'patient') {
+        return;
+    }
+    if(token.scope?.includes('launch/encounter') && resourceType.toLowerCase() === 'encounter') {
+        return;
+    }
+    if(token.scope?.match(/user\/.*\..*/) && resourceType.toLowerCase() === 'practitioner') {
+        return;
+    }
     const scope = token.scope?.split(' ')?.find((s: string) => s.match(new RegExp(resourceType+'\/.*', 'i')));
     
-    console.log(requestPath, token, scope, token.scope, /${resourceType}\/.*/i);
     if(!scope) {
         throw new HttpError("Not enough permission to access the resource").status(403)
     }
@@ -120,7 +130,6 @@ export function validateScope(req: Request, required = false) {
     }
 
     const scopePermissions = scope.split('.').pop() as String;
-    console.log(scopePermissions, permission);
     if(scopePermissions !== '*' && !scopePermissions.includes(permission)) {
         throw new HttpError("Not enough permission").status(403)
     }

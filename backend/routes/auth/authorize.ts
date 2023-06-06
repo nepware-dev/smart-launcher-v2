@@ -292,7 +292,8 @@ export default class AuthorizeHandler {
                     this.authorize()
                 }
             )
-            .catch(() => {
+            .catch((error) => {
+                    console.log('here', error);
                 this.response.status(400)
                 this.response.json({
                     error: "invalid_request",
@@ -589,7 +590,7 @@ export default class AuthorizeHandler {
 
     private async getFirstEncounterId(): Promise<string | undefined> {
         const fhirServer = getFhirServerBaseUrl(this.request as any);
-        const url = new URL(`/Encounter/?_count=1&_sort:desc=date`, fhirServer)
+        const url = new URL(fhirServer+`/Encounter/?_count=1&_sort:desc=date`)
         url.searchParams.set("patient", this.launchOptions.patient.get(0)!)
         const res = await fetch(url)
         const txt = await res.text()

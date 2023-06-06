@@ -124,7 +124,7 @@ export default function SampleApp()
                 <div className="container">
                     <div className="content sample-app">
                         <br/>
-                        <div className="alert alert-info">
+                        <div className="alert alert-info hidden">
                             <i className="glyphicon glyphicon-info-sign text-primary" /> The
                             sample app is about to perform a {launchParams.launch_type} launch.
                             You can customize some options below and click "Authorize".

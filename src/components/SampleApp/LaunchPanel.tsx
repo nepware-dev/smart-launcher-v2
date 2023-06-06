@@ -1,5 +1,5 @@
 import { oauth2 }     from "fhirclient"
-import { useState }   from "react"
+import { useState, useEffect }   from "react"
 import ScopeEditor    from "./ScopeEditor"
 import { fhirclient } from "fhirclient/lib/types"
 
@@ -57,6 +57,12 @@ export default function LaunchPanel({
             // }
         });
     }
+
+    useEffect(() => {
+        launch();
+    }, []);
+
+    return null;
 
     return (
         <div>

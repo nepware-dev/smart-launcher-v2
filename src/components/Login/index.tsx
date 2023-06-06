@@ -141,7 +141,7 @@ export default function Login() {
 
                         <hr/>
                         <div className="form-group">
-                            {error && <label>{error.message}</label>}
+                            {error && <div className="alert alert-danger">{error.message}</div>}
                             <div className="col-xs-12 text-center">
                                 <button
                                     type="button"

@@ -115,3 +115,7 @@ td {
     word-wrap: break-word !important;
     break-inside: auto !important;
 }
+
+.hidden {
+    display: none;
+}
