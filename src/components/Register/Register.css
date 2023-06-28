@@ -1,0 +1,50 @@
+.register-container {
+    min-height: 100vh;
+}
+
+.register-banner {
+    position: fixed;
+    width: 25vw;
+    height: 100%;
+    background: linear-gradient(145deg, rgba(1, 112, 185, 0.96) 0%, rgba(1, 112, 185, 0.65) 100%), url(../../assets/images/banner.png) no-repeat;
+    background-size: cover;
+}
+
+.register-logo {
+    margin-left: 60px;
+    margin-top: 36px;
+}
+
+.register-content {
+    margin-left: 25vw;
+    flex: 1;
+    padding: 80px;
+}
+
+.register-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+}
+.register-form .button {
+    padding: 6px;
+    min-width: 280px;
+    margin-bottom: 16px;
+}
+.register-form .form-row {
+    display: flex;
+    align-items: flex-start;
+}
+.register-form .form-row .form-row-title {
+    flex: 0 0 20%;
+}
+.register-form .form-row .form-input-row {
+    flex: 1;
+    display: flex;
+    gap: 4%;
+    flex-wrap: wrap;
+}
+.register-form .form-row .form-input-row .form-group {
+    flex: 0 0 46%;
+}

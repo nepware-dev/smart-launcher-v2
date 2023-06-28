@@ -1,6 +1,9 @@
 import React                      from "react"
 import { useSearchParams }        from "react-router-dom"
 import { Helmet, HelmetProvider } from "react-helmet-async"
+
+import logo                       from "../../assets/images/logo.svg"
+
 import "./style.css"
 
 
@@ -91,35 +94,39 @@ export default function AuthorizeLaunch() {
             <Helmet>
                 <title>SMART Launcher - Authorize Launch</title>
             </Helmet>
-            <div className="container authorize-app">
-                <div className="row">
-                    <div className="col-xs-12 col-md-offset-1 col-md-10">
-                        <h2 className="page-header">
-                            <img src="/logo.png" alt="SMART Logo" height={28} style={{ margin: "-6px 10px 0 0" }} />
-                            <span className="text-primary">Authorize App Launch</span>
+            <div className="authorize-app">
+                <img src={logo} className="logo" alt="NTIC Logo" />
+                <div className="content">
+                    <div>
+                        <h2 className="page-header header">
+                            <span className="text-primary">
+                                Authorize App Launch
+                            </span>
                         </h2>
                     </div>
-                </div>
-                <div className="row">
-                    <div className="col-xs-12 col-md-offset-1 col-md-10">
-                        { groups.access.length > 0 && <div className="alert alert-warning access-alert">
-                            <b className="glyphicon glyphicon-info-sign pull-left" style={{ margin: "7px -7px -7px 7px" }}/>
-                            <ul id="access-note">{ groups.access.map((msg, i) => (<li key={i} dangerouslySetInnerHTML={{ __html: msg }} />)) }</ul>
-                        </div> }
-                        
+                        { groups.access.length > 0 && (
+                            <div className="alert alert-warning access-alert">
+                                <b className="glyphicon glyphicon-info-sign pull-left" />
+                                <ul id="access-note">
+                                    { groups.access.map((msg, i) => (<li key={i} dangerouslySetInnerHTML={{ __html: msg }} />)) }
+                                </ul>
+                            </div>
+                        )}
                         <div className="panel-body">
+                            <h4 className="other text-muted">
+                                This application is requesting permission to:
+                            </h4>
 
-                            <h4 className="other text-muted">This application is requesting permission to:</h4>
-                            
                             <ul>{ listItems  }</ul>
                         </div>
-
-                        <hr />
-                        <div className="text-center">
-                            <button type="button" className="btn btn-danger"  id="deny"    style={{ minWidth: "8em" }} onClick={() => submit(false)}>Deny</button> &nbsp;
-                            <button type="button" className="btn btn-success" id="approve" style={{ minWidth: "8em" }} onClick={() => submit(true )}>Approve</button>
+                        <div>
+                            <button type="button" className="btn btn-danger"  id="deny"    style={{ minWidth: "8em" }} onClick={() => submit(false)}>
+                                Deny
+                            </button> &nbsp;
+                            <button type="button" className="btn btn-success" id="approve" style={{ minWidth: "8em" }} onClick={() => submit(true )}>
+                                Approve
+                            </button>
                         </div>
-                    </div>
                 </div>
             </div>
         </HelmetProvider>
@@ -152,7 +159,7 @@ function scopeToText(scope: string, isPatient?: boolean) {
             return { ...out, other: '<i class="glyphicon glyphicon-ok-sign text-warning"></i>&nbsp;<b class="text-warning">Launch</b> other SMART applications' }
         case "profile":
         case "fhirUser":
-            return { ...out, read: '<i class="glyphicon glyphicon-ok-sign text-success"></i>&nbsp;<b class="text-success">Read</b> our profile information' }
+            return { ...out, read: '<i class="glyphicon glyphicon-ok-sign text-success"></i>&nbsp;<b class="text-success">Read</b> your profile information' }
         case "launch":
             return { ...out, read: '<i class="glyphicon glyphicon-ok-sign text-success"></i>&nbsp;<b class="text-success">Read</b> all data about the selected patient and encounter' }
         case "launch/patient":
@@ -164,7 +171,7 @@ function scopeToText(scope: string, isPatient?: boolean) {
         case "offline_access":
             return { ...out, access: "The application will be able to access data until you revoke permission (<code>offline access</code>)." }
     }
-    
+
     const scopeParts = scope.split(/[/.]/);
 
     if (scopeParts.length < 2) {
@@ -262,4 +269,3 @@ function tagsToString(accessAndTags: any) {
 
     return tags;
 }
-

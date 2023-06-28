@@ -31,6 +31,8 @@ export interface AuthorizeParams {
     aud: string
     nonce?: string
 
+    login_type?: string;
+
     code_challenge_method?: "S256"
     code_challenge?: string
     
@@ -113,7 +115,7 @@ export default class AuthorizeHandler {
         // is available on different port than the backend endpoints. In
         // production backend and frontend share the same origin.
         const origin = process.env.NODE_ENV === "development" ?
-            "http://localhost:8444" : // TODO: make this dynamic
+            "http://localhost:8445" : // TODO: make this dynamic
             this.baseUrl;
 
         const url = new URL(to, origin /*+ req.originalUrl*/)
@@ -148,7 +150,6 @@ export default class AuthorizeHandler {
         if (launch_type !== "patient-portal" && launch_type !== "patient-standalone") {
             return false;
         }
-
         // No patients selected but we need some
         if (!patient.size()) {
             return true;
@@ -293,7 +294,6 @@ export default class AuthorizeHandler {
                 }
             )
             .catch((error) => {
-                    console.log('here', error);
                 this.response.status(400)
                 this.response.json({
                     error: "invalid_request",
@@ -329,13 +329,14 @@ export default class AuthorizeHandler {
         const { params, launchOptions } = this
 
         const scope = new ScopeSet(decodeURIComponent(this.params.scope));
-        
+
         const code: SMART.AuthorizationToken = {
             context: {
                 need_patient_banner: !launchOptions.sim_ehr,
                 smart_style_url: this.baseUrl + "/smart-style.json",
             },
             client_id   : params.client_id,
+            user        : params.login_type === 'provider' ? `Practitioner/${params.provider}` : `Patient/${params.patient}`,
             redirect_uri: params.redirect_uri + "",
             scope       : params.scope,
             pkce        : launchOptions.pkce,
@@ -411,7 +412,7 @@ export default class AuthorizeHandler {
 
         // User decided not to authorize the app launch
         if (params.auth_success === "0") {
-            throw new InvalidRequestError("Unauthorized").status(401)
+            throw new InvalidRequestError("Authorization denied").status(302)
         }
 
         // Assert that the redirect_uri param is present

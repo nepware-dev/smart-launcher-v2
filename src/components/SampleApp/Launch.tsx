@@ -20,21 +20,21 @@ export default function SampleAppLaunch() {
 
             // We might be within the EHR frame
             completeInTarget: true,
-            
+
             clientSecret: launch.client_type === "confidential-symmetric" ?
                 launch.client_secret || undefined :
                 undefined,
-            
+
             pkceMode: launch.pkce === "none" ?
                 "disabled" :
                 launch.pkce === "auto" ?
                     "ifSupported" :
                     "required",
-            
+
             clientPublicKeySetUrl: launch.client_type === "confidential-asymmetric" ?
                 "https://www.hl7.org/fhir/smart-app-launch/RS384.public.json" :
                 undefined,
-            
+
             clientPrivateJwk: launch.client_type === "confidential-asymmetric" ? {
                 "kty": "RSA",
                 "alg": "RS384",
@@ -72,7 +72,7 @@ export default function SampleAppLaunch() {
         console.dir(error)
     }
 
-    return error ? 
+    return error ?
         <div className="container">
             <br/>
             <h2 className="text-center">Error Launching Sample App</h2>

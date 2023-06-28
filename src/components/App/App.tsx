@@ -7,6 +7,7 @@ import SampleApp       from "../SampleApp"
 import SampleAppLaunch from "../SampleApp/Launch"
 import AuthorizeLaunch from "../AuthorizeLaunch"
 import Login           from "../Login"
+import Register        from "../Register"
 import EHR             from "../EHR"
 import LaunchBS        from "../SampleApp/LaunchBS"
 import "./App.css"
@@ -15,7 +16,7 @@ declare global {
     var dataLayer: any[]
     var gtag: (...args: any[]) => any
 }
-  
+
 
 export default function App() {
 
@@ -31,7 +32,7 @@ export default function App() {
             window.gtag = function() {
                 window.dataLayer.push(arguments);
             };
-            window.gtag('js', new Date()); 
+            window.gtag('js', new Date());
             window.gtag('config', window.ENV.GOOGLE_ANALYTICS_ID);
         }
     })
@@ -44,6 +45,7 @@ export default function App() {
                 <Route path="/select-encounter"     element={ <EncounterPicker /> } />
                 <Route path="/authorize-app"        element={ <AuthorizeLaunch /> } />
                 <Route path="/patient-login"        element={ <Login /> } />
+                <Route path="/patient-register"     element={ <Register /> } />
                 <Route path="/provider-login"       element={ <Login /> } />
                 <Route path="/ehr"                  element={ <EHR /> } />
                 <Route path="/sample-app/launch"    element={ <SampleAppLaunch /> } />

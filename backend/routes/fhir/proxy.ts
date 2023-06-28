@@ -45,8 +45,9 @@ export default async function proxy(req: Request, res: Response) {
         
         fhirRequestOptions.headers.set(
             "accept",
-            fhirVersion === "R2" ? "application/json+fhir" : "application/fhir+json"
+            fhirVersion === "R2" ? "application/json+fhir" : "*"
         );
+        fhirRequestOptions.headers.delete('cache-control');
     }
 
     // Proxy ---------------------------------------------------------------

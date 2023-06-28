@@ -33,7 +33,7 @@ export default {
     /**
      * The base URL of the R4 FHIR server (if any)
      */
-    fhirServerR4: env.FHIR_SERVER_R4 ?? "https://r4.smarthealthit.org",
+    fhirServerR4: env.FHIR_SERVER_R4 ?? "http://159.65.153.95:8080/fhir",
     
     /**
      * Default access token lifetime in minutes

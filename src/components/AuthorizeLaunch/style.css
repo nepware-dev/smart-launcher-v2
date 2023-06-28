@@ -1,19 +1,82 @@
 .authorize-app {
-    margin-bottom: 40px;
+    background: #FAFCFF;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+
+    @media screen and (max-width: 567px) {
+        justify-content: flex-start;
+        padding-top: 136px;
+    }
+}
+.authorize-app .logo {
+    position: absolute;
+    top: 36px;
+    left: 60px;
+    max-width: 25vw;
+
+    @media screen and (max-width: 768px) {
+        top: 18px;
+        left: 48px;
+    }
+
+    @media screen and (max-width: 567px) {
+        top: 9px;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        max-width: 120px;
+    }
+}
+.authorize-app .content {
+    border-radius: 8px;
+    background: #FFF;
+    box-shadow: 1px 2px 16px -2px rgba(0, 0, 0, 0.06);
+    width: 80vw;
+    max-width: 833px;
+    padding: 36px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+
+    @media screen and (max-width: 567px) {
+        width: 95vw;
+        padding: 24px 16px;
+    }
+}
+.authorize-app .content .header {
+    margin: 0;
+    border: none;
+
+    @media screen and (max-width: 567px) {
+        text-align: center;
+    }
 }
 .authorize-app ul {
-    margin-bottom: 30px;
+    padding: 0;
 }
 .authorize-app li {
     list-style: none;
-    margin: 1ex 0 1ex 20px;
+    margin: 1.25ex 0;
+}
+.authorize-app .access-alert {
+    margin-bottom: 0;
+    display: flex;
+    align-items: center;
 }
 .authorize-app .access-alert ul {
     margin: 0;
+    padding-left: 12px;
+}
+.authorize-app .panel-body {
+    padding: 0;
 }
 .authorize-app .access-alert li {
     line-height: normal;
-    list-style-type: disc;
+    list-style-type: none;
 }
 .authorize-app .label {
     text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);

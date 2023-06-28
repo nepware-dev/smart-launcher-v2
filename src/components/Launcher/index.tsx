@@ -83,7 +83,7 @@ function getValidationErrors(launch: SMART.LaunchParams, query: LauncherQuery) {
                 new URL(launch.jwks_url)
             } catch {
                 validationErrors.push("Invalid JWKS URL")
-            }   
+            }
         }
     }
 
@@ -142,7 +142,7 @@ export default function Launcher() {
                 "/sample-app/launch",
         origin
     );
-    
+
     // The URL to launch the user-specified app
     let userLaunchUrl: URL | undefined;
 
@@ -168,12 +168,12 @@ export default function Launcher() {
         sampleLaunchUrl.searchParams.delete("launch");
         sampleLaunchUrl.searchParams.delete("aud");
         sampleLaunchUrl.pathname = "/ehr";
-        
+
         userLaunchUrl = new URL(`/ehr?app=${encodeURIComponent(userLaunchUrl.href)}`, origin);
     }
 
     let validationErrors = getValidationErrors(launch, query);
-    
+
     return (
         <HelmetProvider>
             <Helmet>
@@ -199,7 +199,7 @@ export default function Launcher() {
                     { tab === "0" && <LaunchTab /> }
                     { tab === "1" && <ValidationTab /> }
                     </div>
-                    
+
                     { !!(validationErrors.length && !(validationErrors.length === 1 && validationErrors[0] === "Missing app launch URL")) &&
                         <div className="text-danger mt-2" style={{ background: "#f9f3f4", padding: "5px 15px", borderRadius: 5 }}>
                             <i className="glyphicon glyphicon-exclamation-sign"/> {validationErrors.join("; ")}
@@ -223,9 +223,9 @@ export default function Launcher() {
                                         readOnly={ isStandaloneLaunch || isBackendService }
                                     />
                                     <span className="input-group-btn">
-                                        { isStandaloneLaunch || isBackendService ? 
+                                        { isStandaloneLaunch || isBackendService ?
                                             <button className="btn btn-primary" onClick={() => copyElement("#launch-url")}>Copy</button> :
-                                            validationErrors.length ? 
+                                            validationErrors.length ?
                                                 <button className="btn btn-default" disabled>Launch</button> :
                                                 <a
                                                     id="ehr-launch-url"
@@ -239,7 +239,7 @@ export default function Launcher() {
                                 </div>
                             </div>
                             <div style={{ flex: "1 1 0", marginLeft: 5 }}>
-                                { validationErrors.filter(e => e !== "Missing app launch URL" && e !== "Invalid app launch URL").length ? 
+                                { validationErrors.filter(e => e !== "Missing app launch URL" && e !== "Invalid app launch URL").length ?
                                     <button className="btn btn-default" disabled>Launch Sample App</button> :
                                     <a href={sampleLaunchUrl.href} target="_blank" rel="noreferrer noopener" className="btn btn-default">
                                         <span className="text-success">Launch Sample App</span>
@@ -360,7 +360,7 @@ function LaunchTab() {
                                     <option value="token_invalid_scope">invalid scope</option>
                                     { launch.launch_type === "backend-service" && <option value="token_invalid_jti">invalid jti</option> }
                                 </optgroup>
-                                
+
                                 <optgroup label="During FHIR requests">
                                     <option value="request_invalid_token">invalid access token</option>
                                     <option value="request_expired_token">expired access token</option>
@@ -429,7 +429,7 @@ function LaunchTab() {
                     )}
                 </div>}
             </div>
-            { launch.launch_type !== "backend-service" ? 
+            { launch.launch_type !== "backend-service" ?
                 <div className="col-sm-6">
                     <div className="form-group">
                         <label htmlFor="patient" className="text-primary">Patient(s)</label>
@@ -670,7 +670,7 @@ function ValidationTab() {
                 padding: "10px 15px",
                 background: "#e7f4ff",
                 borderRadius: 5
-            }}>   
+            }}>
                 <div>
                     <label>
                         <i className="fa-regular fa-circle-check text-primary" style={{ marginLeft: -20 }} /> Your
@@ -729,7 +729,7 @@ function ValidationTab() {
                             <i className="fa-regular fa-circle-check text-primary" style={{ marginLeft: -20 }} /> Your
                             app is required to use valid PKCE
                         </label>
-                    </div> 
+                    </div>
                 )}
             </div>
         )
@@ -827,7 +827,7 @@ function ValidationTab() {
                     placeholder="client_secret"
                     className="form-control"
                     value={ validation === "1" ? launch.client_secret : client_secret }
-                    onChange={ 
+                    onChange={
                         e => validation === "1" ?
                         setQuery({ client_secret: e.target.value }) :
                         setClientSecret(e.target.value)
@@ -868,7 +868,7 @@ function ValidationTab() {
                 (
                     <div className="row">
                         <div className="col-sm-12">
-                            { renderValidationWidget() }        
+                            { renderValidationWidget() }
                         </div>
                     </div>
                 ) :

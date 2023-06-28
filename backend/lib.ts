@@ -115,7 +115,14 @@ export function validateScope(req: Request, required = false) {
     if(token.scope?.includes('launch/encounter') && resourceType.toLowerCase() === 'encounter') {
         return;
     }
-    if(token.scope?.match(/user\/.*\..*/) && resourceType.toLowerCase() === 'practitioner') {
+    if(token.scope?.match(/user\/.*\..*/) /*
+        FIXME: This should give permission to more resources than practitioner
+        only.
+        && resourceType.toLowerCase() === 'practitioner'
+                                           */) {
+        return;
+    }
+    if(token.scope?.match(/patient\/.*\..*/)) {
         return;
     }
     const scope = token.scope?.split(' ')?.find((s: string) => s.match(new RegExp(resourceType+'\/.*', 'i')));
